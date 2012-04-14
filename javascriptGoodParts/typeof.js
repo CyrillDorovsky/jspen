@@ -1,0 +1,1 @@
+The values produced by typeof are 'number', 'string', 'boolean', 'undefined', 'function', and 'object'. If the operand is an array or null, then the result is 'object', which is wrong. There will be more about typeof in Chapter 6 and Appendix A.

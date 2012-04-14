@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" dir="ltr">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Running JSLint from the Command Line | EchoDitto Labs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="alternate" type="application/rss+xml" title="Comments for &quot;Running JSLint from the Command Line&quot;" href="http://echodittolabs.org/crss/node/286" />
+<link rel="shortcut icon" href="/files/favicon.ico" type="image/x-icon" />
+    <link type="text/css" rel="stylesheet" media="all" href="/files/css/css_a9df9633a7ccbb44ca8237579bc5ed4c.css" />
+    <script type="text/javascript" src="/misc/jquery.js?k"></script>
+<script type="text/javascript" src="/misc/drupal.js?k"></script>
+<script type="text/javascript" src="/sites/all/modules/contrib/google_analytics/googleanalytics.js?k"></script>
+<script type="text/javascript" src="/sites/all/modules/contrib/mollom/mollom.js?k"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "googleanalytics": { "trackOutgoing": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls|xml|z|zip" } });
+//--><!]]>
+</script>
+  </head>
+
+  <body class="not-front not-logged-in page-node node-type-blog no-sidebars site-live envt-labs_helper theme-arthemia_labs">
+    <div id="head" class="clearfloat">
+
+      <div class="clearfloat">
+        <div id="logo">
+          <a href="/" title="EchoDitto Labs"><img src="/files/echolabs7_logo_100h.png" alt="EchoDitto Labs" /></a>                </div>
+
+                  <div id="banner-region">
+            <div id="block-quotes-1" class="block block-quotes even">
+  <h3><code>&lt;?php brain_dump($tech_team) ?&gt;</code></h3>
+
+  <div class="content">
+    <div class="quotes-quote"><p>The term "database shards" makes me giggle.</p>
+</div><div class="quotes-author"><p>&mdash; Dan</p>
+</div><div class="clear-block"></div>  </div>
+</div>
+          </div>
+              </div>
+
+      <div id="navbar" class="clearfloat">
+          <div id="page-bar"><ul class="menu"><li class="leaf first"><a href="/blog" title="Blog">Blog</a></li>
+<li class="leaf"><a href="/labs-projects">Projects</a></li>
+<li class="leaf last"><a href="/bookmarks">Bookmarks</a></li>
+</ul></div>              </div>
+    </div>
+
+    <div id="page" class="clearfloat">
+
+            
+              <div id="middle" class="clearfloat">
+          <div id="block-views-featured_recent-block_2" class="block block-views odd">
+
+	<div id="cat-1" class="category">
+	<p><span class="cat_title">Live Projects</span>
+	<div class="view view-featured-recent view-id-featured_recent view-display-id-block_2 view-dom-id-2">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+    
+	<h3><a href="/labs-projects">Sites</a></h3>
+
+		<p>Drupal 6 module that segregates content and various settings based on domain, subdomain, or other path parameter</p>
+		
+	
+	  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div> 	</p>
+	</div>
+
+</div>
+<div id="block-views-featured_recent-block_3" class="block block-views even">
+
+	<div id="cat-2" class="category">
+	<p><span class="cat_title">bookmarked</span>
+	<div class="view view-featured-recent view-id-featured_recent view-display-id-block_3 view-dom-id-3">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+    
+	<h3><a href="http://drupal.org/node/993166">Pagebuild Case Study | drupal.org</a></h3>
+
+		
+	
+	  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div> 	</p>
+	</div>
+
+</div>
+<div id="block-block-5" class="block block-block odd">
+
+	<div id="cat-3" class="category">
+	<p><span class="cat_title">Open Source</span>
+	<h3><a href="/feature/sites">Sites</a></h3>
+<p>Drupal 6 module that segregates content and various settings based on domain, subdomain, or other path parameter<br/>
+(<a href="/feature/sites">Project</a>, <a href="/blog/2010/04/sites-module-version-23-goes-live">blog post</a>)</p>	</p>
+	</div>
+
+</div>
+<div id="block-views-featured_recent-block_4" class="block block-views even">
+
+	<div id="cat-4" class="category">
+	<p><span class="cat_title"><a href="http://twitter.com/echodittolabs">@echodittolabs</a></span>
+	<div class="view view-featured-recent view-id-featured_recent view-display-id-block_4 view-dom-id-4">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+    
+	<h3></h3>
+
+		
+	
+		<p><p>RT @eethann: Why online organizers should care about geeky trends like RESTful Web Apps &amp; JavaScript frameworks, pt2: <a href="http://t.co/uqAyHbt5" title="http://t.co/uqAyHbt5">http://t.co/uqAyHbt5</a></p></p>
+	  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div> 	</p>
+	</div>
+
+</div>
+<div id="block-block-10" class="block block-block odd">
+
+	<div id="cat-5" class="category">
+	<p><span class="cat_title"></span>
+	<p><span class="cat_title" ><a href="http://echoditto.com"><span class="about">About </span><span class="echoditto-logo" ><img src="http://echodittolabs.org/sites/all/themes/custom/arthemia_labs/images/ed-logo-sm.jpg" alt="EchoDitto" /></span></a></span><br />
+<span class="about-text" style="font-size: 1.3em;position:relative;top:5px">EchoDitto empowers leading organizations to have a greater impact through the creative use of new technologies. </span><br />
+<a href="http://echoditto.com" style="position:relative;top:5px">Learn more at echoditto.com &#62;</a></p>
+	</p>
+	</div>
+
+</div>
+        </div>
+      
+      <div id="content" class="main-content with-sidebar">
+        
+        <div class="breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/blog">Blogs</a> &rsaquo; <a href="/blogs/paul-venuti">Paul Venuti&#039;s blog</a></div>                        <h1>Running JSLint from the Command Line</h1>                                        <div id="node-286" class="node clear-block">
+
+
+ <div class="credits">
+	<div class="picture">
+  <a href="/users/paul-venuti" title="View user profile."><img src="http://echodittolabs.org/files/pictures/picture-23.png" alt="Paul Venuti&#039;s picture" title="Paul Venuti&#039;s picture"  /></a></div>
+
+		<span class="submitted">Submitted by <a href="/users/paul-venuti" title="View user profile.">Paul Venuti</a> on Mon, 2011-01-10 18:48</span>
+	
+		   <div class="taxonomy">Tags: 
+	   <div class="terms terms-inline"><ul class="links inline"><li class="taxonomy_term_35 first last"><a href="/taxonomy/term/35" rel="tag" title="">javascript</a></li>
+</ul></div>
+	   </div>
+	 </div><!--/credits-->
+
+  <div class="content">
+    <p>While working on a <a href="http://www.echoditto.com/blog/fighting-obesity-digital-footprint">recent project</a> involving an embeddable JavaScript widget, I discovered a lot of useful techniques for creating widgets and for working with JavaScript in general. One of the latter is to use Douglas Crockford's <a href="http://jslint.com">JSLint</a> to syntax- and quality-check your code.</p>
+
+<p>Without a tool like JSLint, the only way to <em>really</em> check your code for syntax errors is to run it in every browser you plan to support. Each browser has its own set of syntactical peculiarities, most of which are of the small-and-retiring variety, rather than of the big-and-honking kind.</p>
+
+<p>A good example of the kind of hard-to-track-down error that exists in the browser-based world of JavaScript is the use of a comma after the last element in an array. Adding a comma after the last element of an array is considered something of a best practice in PHP, but is not valid JavaScript syntax. Firefox, Chrome, and most other browsers will look the other way on this one, but IE pukes up a useless error message &ndash; the never-helpful "unexpected identifier, string or number" (which &ndash; applying the rules of our good friend <a href="http://en.wikipedia.org/wiki/De_Morgan%27s_laws">DeMorgan</a> &ndash; boils down to "unexpected something"). This is precisely the kind of thing that JSLint will catch.</p>
+
+<p>Clearly, then, using JSLint is The Best And Right Thing To Do. But this is JavaScript, 99% of which is run in the browser; as such, JSLint only exists <a href="http://www.jslint.com/">online</a>. In practice, this means copying and pasting all your JavaScript into JSLint every time you want to run a syntax or quality check (referred to as "linting" your code). That gets old so fast that you probably won't end up linting your code at all.</p>
+
+<p>Luckily, some folks in the JavaScript community have found a way to run JSLint from the command line! Here's what you want to do:</p>
+
+<ol>
+<li><p>Use <a href="http://www.macports.org/">macports</a> or <a href="https://github.com/mxcl/homebrew">homebrew</a> to install <a href="http://www.mozilla.org/js/spidermonkey/">spidermonkey</a>. SpiderMonkey is Mozilla's JavaScript engine broken out as a C program. Installing SpiderMonkey basically gives you a JavaScript shell, which is exactly what we need if we want to run JSLint from the command line.</p>
+
+<p>Normally I use homebrew to build from source, but it had troubles with the spidermonkey install, so I'd suggest using macports for this one:</p>
+
+<p><code>port install spidermonkey</code></p></li>
+<li><p>Get Andy Walker's <a href="http://whereisandy.com/code/jslint/">"SpiderMonkey hack version"</a> of JSLint. You need Walker's version of JSLint because JSLint can't quite be run from a CLI out of the box. Thankfully, Walker has made all the necessary tweaks. You can read all about the tweaks and why we need to make them on Walker's blog, but you're not missing much if you don't.</p></li>
+<li><p>Once you've downloaded the hacked version of JSLint, open it up and make sure the shebang points to your copy of SpiderMonkey. By default, Walker's version of JSLint has SpiderMonkey living at /usr/bin/js, but yours might not live there. To find out where your copy lives, run the following command:</p>
+
+<p><code>which js</code></p>
+
+<p>And change the first line of JSLint to that location.</p>
+
+<p><code>#!/path/to/js</code></p></li>
+<li><p>Put JSLint somewhere in your PATH. I put mine in /usr/bin, but anywhere in your PATH will do.</p></li>
+<li><p>That's it! You're ready to run JSLint from the command line. All you have to do is pipe your JavaScript file to the jslint command, like so:</p>
+
+<p><code>cat my_awesome_widget.js | jslint</code></p></li>
+</ol>
+
+<p>Awesome!</p>
+
+<p>As of now, the only drawback is that there's no way to pass in command line arguments, so what you get is the "base" JSLint &ndash; it's like running the online version without any of the options turned on. Even so, if using JSLint from the command line means that you'll run it early and often, then it's well worth it.</p>
+  </div>
+
+  <ul class="links"><li class="forward_links first"><a href="/forward?path=node%2F286" title="Forward this page to a friend" class="forward-page">Email this page</a></li>
+<li class="print_html last"><a href="/print/286" title="Display a printer-friendly version of this page." class="print-page" rel="nofollow">Printer-friendly version</a></li>
+</ul><ul class="links"><li class="">
+  </li><li><a href="/blog/2011/01/running-jslint-command-line#comment-form">Post new comment</a>
+</li>
+<ul>
+</div>
+<div id="comments"><h2 class="comments">Comments</h2><a id="comment-6462"></a>
+<div class="comment comment-published clear-block">
+  <div class="comment-header clearfloat">
+    <div class="submitted">Submitted by <a href="/users/ethan" title="View user profile.">Ethan</a> on Wed, 2011-01-12 00:59.</div>
+    <div class="comment-link"><a href="/blog/2011/01/running-jslint-command-line#comment-6462" class="active">#1</a></div>
+  </div>
+  
+  <div class="author-data">
+    <div class="picture">
+  <a href="/users/ethan" title="View user profile."><img src="http://echodittolabs.org/files/pictures/picture-9.jpg" alt="Ethan&#039;s picture" title="Ethan&#039;s picture"  /></a></div>
+	        <div class="user-member"><strong>Member since:</strong><br /> 12 July 2007</div>  
+      <div class="user-access"><strong>Last activity:</strong><br /> 1 hour 30 min</div>  
+      </div>
+
+  <div class="comment-main">
+    
+    <div class="content">  
+        <p>jsLint is awesome, and having command line access to it is a total game changer.  For those among us who are not Java-adverse, <a href="http://code.google.com/p/jslint4java/">jslint4java</a> is a nice option as well, and supports a whole bunch of the script's options. There's a few others listed in <a href="http://stackoverflow.com/questions/599842/jslint-cli-options">this stackoverflow thread</a>.</p>
+            </div>
+  </div>
+  </div>
+<a id="comment-6614"></a>
+<div class="comment comment-published clear-block">
+  <div class="comment-header clearfloat">
+    <div class="submitted">Submitted by <a href="http://www.benjamindean.com" rel="nofollow">Benjamin</a> (not verified) on Tue, 2011-04-05 23:31.</div>
+    <div class="comment-link"><a href="/blog/2011/01/running-jslint-command-line#comment-6614" class="active">#2</a></div>
+  </div>
+  
+  <div class="author-data">
+    <div class="picture">
+  <img src="http://labs.echoditto.com/files/missing.jpg" alt="Benjamin&#039;s picture" title="Benjamin&#039;s picture"  /></div>
+	    </div>
+
+  <div class="comment-main">
+    
+    <div class="content">  
+        <p>I just wanted to say thank you for a handy little tool.</p>
+            </div>
+  </div>
+  </div>
+</div>
+        
+      </div>
+
+              <div id="sidebar">
+          <div id="block-block-8" class="block block-block odd">
+  <h3>You + EchoDitto = Glorious Future</h3>
+
+  <div class="content">
+    <!-- NOTE: Google Analytics custom code to track clicks to jobs as goals -->
+<!-- see http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=72712 -->
+<div class="were-hiring" style="text-align:center;">
+	<a href="http://www.echoditto.com/careers" onClick="javascript: pageTracker._trackPageview('/G2/www.echoditto.com/careers');"><img class="were-hiring-img" src="http://echodittolabs.org/sites/all/themes/custom/arthemia_labs/images/jobs-jump.jpg" alt="We are hiring!"></a>
+</div>
+<di>
+	<div class="finger-block"><a href="http://www.echoditto.com/careers" onClick="javascript: pageTracker._trackPageview('/G2/www.echoditto.com/careers');"><span class="finger"><img src="http://echodittolabs.org/sites/all/themes/custom/arthemia_labs/images/finger.jpg" alt="Pointing finger"></span><span class="are-you">Are You...</span>
+		</a>
+	</div>
+	<ul>
+		<li>
+			<b>Fixated</b> on the internet?
+		</li>
+		<li>
+			<b>Interested</b> in working with smart, creative people?
+		</li>
+		<li>
+			<b>Aiming</b> to make the world a better place?
+		</li>
+	</ul>
+	<div class="are-you-block">
+	<a href="http://www.echoditto.com/careers" onClick="javascript: pageTracker._trackPageview('/G2/www.echoditto.com/careers');"><span class="join-us">Join us @</span><span class="join-ed-logo"><img src="http://echodittolabs.org/sites/all/themes/custom/arthemia_labs/images/ed-logo-sm.jpg" alt="EchoDitto"></span></a>
+	</div>
+<div class="item-list">
+	<ul>
+		<li>
+			<div class='view-item view-item-were-hiring-page'>
+				<div class='view-field view-data-node-title'>
+					<a href="http://www.echoditto.com/careers/software-architect" onClick="javascript: pageTracker._trackPageview('/G2/www.echoditto.com/software-architect');"><b>Web Developer/Software Architect</b></a>
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class='view-item view-item-were-hiring-page'>
+				<div class='view-field view-data-node-title'>
+					<a href="http://www.echoditto.com/careers/technical-project-manager" onClick="javascript: pageTracker._trackPageview('/G2/www.echoditto.comcareers/technical-project-manager');"><b>Technical Project Manager</b></a>
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class='view-item view-item-were-hiring-page'>
+				<div class='view-field view-data-node-title'>
+					<a href="http://www.echoditto.com/careers/project-principal" onClick="javascript: pageTracker._trackPageview('/G2/www.echoditto.comcareers/technical-project-principal');"><b>Project Principal</b></a>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+  </div>
+</div>
+<div id="block-blog-0" class="block block-blog even">
+  <h3>Recent blog posts</h3>
+
+  <div class="content">
+    <div class="item-list"><ul><li class="first"><a href="/blog/2012/03/testing-asynchronous-javascript-drupal-apps-qunit">Testing Asynchronous JavaScript Drupal Apps with QUnit</a></li>
+<li><a href="/blog/2012/02/introducing-backbone-module-drupal">Introducing the Backbone Module for Drupal</a></li>
+<li><a href="/blog/2012/02/ejs-views-helpers-backbone-rails">EJS Views Helpers With Backbone-Rails</a></li>
+<li><a href="/blog/2012/02/nodejs-and-npm-centos">Node.js and NPM on CentOS</a></li>
+<li><a href="/drupal-coding-standards-vim-code-sniffer-syntastic-regex">Getting Ahead of Drupal&#039;s Coding Standards w/ Drupal Code Sniffer, Vim and a little Regex</a></li>
+<li><a href="/blog/2011/11/print-search-box-form-template-theme-file-drupal-7">Print Search Box Form in Template Theme File, Drupal 7</a></li>
+<li><a href="/blog/2011/10/os-x-107-lion-development-macports">OS X 10.7 Lion Development: MacPorts</a></li>
+<li><a href="/blog/2011/09/mixing-context-and-drupals-native-block-ordering-system">Mixing Context and Drupal&#039;s Native Block Ordering System</a></li>
+<li><a href="/blog/2011/09/os-x-107-lion-development-native-apache-php-homebrew-mysql-or-mariadb">OS X 10.7 Lion Development: Native Apache &amp; PHP with Homebrew MySQL or MariaDB</a></li>
+<li class="last"><a href="/blog/2011/08/os-x-107-lion-development-native-mamp-mysql-installer">OS X 10.7 Lion Development: Native MAMP with MySQL installer</a></li>
+</ul></div><div class="more-link"><a href="/blog" title="Read the latest blog entries.">more</a></div>  </div>
+</div>
+<div id="block-views-Bookmarks-block_1" class="block block-views odd">
+  <h3>Bookmarks</h3>
+
+  <div class="content">
+    <div class="view view-Bookmarks view-id-Bookmarks view-display-id-block_1 view-dom-id-1">
+    
+  
+  
+      <div class="view-content">
+      <div class="item-list">
+    <ul>
+          <li class="views-row views-row-1 views-row-odd views-row-first">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="http://drupal.org/node/993166">Pagebuild Case Study | drupal.org</a></span>
+  </div>
+</li>
+          <li class="views-row views-row-2 views-row-even">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="http://blog.heroku.com/archives/2010/7/20/nosql/">NoSQL options compared on herok.com</a></span>
+  </div>
+</li>
+          <li class="views-row views-row-3 views-row-odd">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="http://www.intenseblog.com/wordpress/optimize-wordpress-speed.html">How to: optimize wordpress</a></span>
+  </div>
+</li>
+          <li class="views-row views-row-4 views-row-even">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="http://code.google.com/p/echo-nest-remix/">echo-nest-remix API</a></span>
+  </div>
+</li>
+          <li class="views-row views-row-5 views-row-odd views-row-last">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="http://www.virtuosimedia.com/tutorials/ultimate-ie6-cheatsheet-how-to-fix-25-internet-explorer-6-bugs#no-hover-state">Ultimate IE6 Cheatsheet: How To Fix 25+ Internet Explorer 6 Bugs</a></span>
+  </div>
+</li>
+      </ul>
+</div>    </div>
+  
+  
+  
+  
+      <div class="view-footer">
+      <div class="more-link"><a title="More bookmarks" href="http://echodittolabs.org/bookmarks">more</a></div>    </div>
+  
+  
+</div>   </div>
+</div>
+<div id="block-user-0" class="block block-user even">
+  <h3>User login</h3>
+
+  <div class="content">
+    <form action="/blog/2011/01/running-jslint-command-line?destination=node%2F286"  accept-charset="UTF-8" method="post" id="user-login-form">
+<div><div class="form-item" id="edit-name-wrapper">
+ <label for="edit-name">Username: <span class="form-required" title="This field is required.">*</span></label>
+ <input type="text" maxlength="60" name="name" id="edit-name" size="15" value="" class="form-text required" />
+</div>
+<div class="form-item" id="edit-pass-wrapper">
+ <label for="edit-pass">Password: <span class="form-required" title="This field is required.">*</span></label>
+ <input type="password" name="pass" id="edit-pass"  maxlength="60"  size="15"  class="form-text required" />
+</div>
+<input type="submit" name="op" id="edit-submit" value="Log in"  class="form-submit" />
+<div class="item-list"><ul><li class="first last"><a href="/user/password" title="Request new password via e-mail.">Request new password</a></li>
+</ul></div><input type="hidden" name="form_build_id" id="form-aa1be9a29d56d6cf1831422f00de3e65" value="form-aa1be9a29d56d6cf1831422f00de3e65"  />
+<input type="hidden" name="form_id" id="edit-user-login-block" value="user_login_block"  />
+
+</div></form>
+  </div>
+</div>
+<div id="block-block-11" class="block block-block odd">
+
+  <div class="content">
+    <p align="center"><img src="http://drupal.org/files/images/organization-badge-120px.png" border="1" /></p>
+  </div>
+</div>
+        </div>
+      
+          </div>
+
+    <div id="footer-region" class="clearfloat">
+      <div id="footer-left" class="clearfloat">
+        <div id="block-block-7" class="block block-block even">
+  <h3>Contact</h3>
+
+  <div class="content">
+    <p>email labs at echoditto dot com</p>
+  </div>
+</div>
+      </div> 		
+
+      <div id="footer-middle" class="clearfloat">
+        <div id="block-system-0" class="block block-system odd">
+
+  <div class="content">
+    <a href="http://drupal.org"><img src="/misc/powered-blue-80x15.png" alt="Powered by Drupal, an open source content management system" title="Powered by Drupal, an open source content management system" width="80" height="15" /></a>  </div>
+</div>
+      </div>
+
+      <div id="footer-right" class="clearfloat">
+        <div id="block-block-4" class="block block-block even">
+
+  <div class="content">
+    <a id="echodittologo" href="http://www.echoditto.com" alt="EchoDitto Home" title="EchoDitto Home"><img src="http://echodittolabs.org/files/echoditto_logo.png" width="171px" height="41px" /></a>  </div>
+</div>
+      </div>
+    </div>
+
+    <div id="footer-message">
+      <a href="http://drupal.org/project/arthemia">Arthemia</a> is based on the original design by <a href="http://michaelhutagalung.com">Michael Hutagalung</a>.    </div>
+    <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-23150613-1"]);_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();
+//--><!]]>
+</script>
+  </body>
+</html>

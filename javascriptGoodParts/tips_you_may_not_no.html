@@ -1,0 +1,2039 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-Strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>9 JavaScript Tips You May Not Know | Ayman Hourieh</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    
+    
+    <link href="/media/css/screen.r1272223596.css" rel="stylesheet" type="text/css" media="screen,projection" />
+    <link href="/media/css/print.r1271024851.css" rel="stylesheet" type="text/css" media="print" />
+    
+      <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4076003-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+    
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="header">
+        <h1><a href="/">Ayman Hourieh</a></h1>
+      </div>
+      <div id="nav">
+        <ul>
+          <li><a href="/">Blog</a></li>
+          <li><a href="/activitystream">Activity Stream</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+        <form action="/search" method="get">
+          <p>
+            <input type="text" name="q" value="" size="18" maxlength="128" />
+            <input type="submit" class="button" value="Search" />
+          </p>
+        </form>
+      </div>
+      <div id="content">
+        
+          <h2 class="content-title">9 JavaScript Tips You May Not Know</h2>
+          <div class="content-body">
+            
+  <div class="post ">
+    <div class="post-body">
+      
+      
+
+  <p>JavaScript is a fully-featured Object-Oriented programming language. On the surface, it shares syntactical similarities with Java and C, but the mentality is quite different. At its core, JavaScript is more similar to functional languages. Inside is a list of JavaScript tips, some offer techniques to simulate features found in C-like languages (such as assertions or static variables). Others are meant to improve performance and explore some of the more obscure parts of the web scripting language.</p>
+<div class="toc">
+<ul>
+<li><a href="#arrays-as-multipurpose-data-structures">Arrays as Multipurpose Data Structures</a><ul>
+<li><a href="#stack">Stack</a><ul>
+<li><a href="#queue">Queue</a><ul>
+<li><a href="#binary-tree">Binary Tree</a></li>
+</ul>
+</li>
+<li><a href="#string-concatenation-vs-arrayjoin">String Concatenation vs. Array.join</a></li>
+<li><a href="#binding-methods-to-objects">Binding Methods to Objects</a></li>
+<li><a href="#sorting-with-a-custom-comparison-function">Sorting With a Custom Comparison Function</a></li>
+<li><a href="#assertion">Assertion</a></li>
+<li><a href="#static-local-variables">Static Local Variables</a></li>
+<li><a href="#null-undefined-and-delete">null, undefined, and delete</a></li>
+<li><a href="#deep-nesting-of-objects">Deep Nesting of Objects</a></li>
+<li><a href="#using-firebug">Using Firebug</a><ul>
+<li><a href="#and">$ and $$</a></li>
+<li><a href="#consolelogformat-obj1">console.log(format, obj1, ...)</a></li>
+<li><a href="#consoletrace">console.trace()</a></li>
+<li><a href="#inspectobj">inspect(obj)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h3 id="arrays-as-multipurpose-data-structures">Arrays as Multipurpose Data Structures</h3>
+<p>Although that JavaScript may seem limited on the data structure front at first glance, its Array class is much more versatile than the usual array type found in other programming languages (like C++ or Java). It's commonly used as an array or associative array, and this tip demonstrates how to use it as a stack, queue, and binary tree. Re-using the Array class instead of writing such data structures provides two benefits: First, time isn't wasted rewriting existing functionality, and second, the built-in browser implementation will be more efficient than its JavaScript counterpart.</p>
+<h4 id="stack">Stack</h4>
+<p>A stack follows the Last-In First-Out (LIFO) paradigm: an item added last will be removed first. The Array class has 2 methods that provide stack functionality. they are <code>push()</code> and <code>pop()</code>. <code>push()</code> appends an item to the end of the array, and <code>pop()</code> removes and returns the last item in the array. The next code block demonstrates how to utilize each of them:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">stack</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nx">stack</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>       <span class="c1">// stack is now [2]</span>
+<span class="nx">stack</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>       <span class="c1">// stack is now [2, 5]</span>
+<span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span> <span class="c1">// stack is now [2]</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>            <span class="c1">// displays 5</span>
+</pre></div>
+
+
+<h4 id="queue">Queue</h4>
+<p>A queue follows the First-In First-Out (FIFO) paradigm: the first item added will be the first item removed. An array can be turned into a queue by using the <code>push()</code> and <code>shift()</code> methods. <code>push()</code> inserts the passed argument at the end of the array, and <code>shift()</code> removes and returns the first item. Let's see how to use them:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">queue</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nx">queue</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>         <span class="c1">// queue is now [2]</span>
+<span class="nx">queue</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>         <span class="c1">// queue is now [2, 5]</span>
+<span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">queue</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span> <span class="c1">// queue is now [5]</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>              <span class="c1">// displays 2</span>
+</pre></div>
+
+
+<p>It's worth noting that Array also has a function named <code>unshift()</code>. This function adds the passed item to the beginning of an array. So a stack can also be simulated by using <code>unshift()</code>/<code>shift()</code>, and a queue can be simulated by using <code>unshift()</code>/<code>pop()</code>.</p>
+<p>If all these function names are confusing, you may create aliases with your own names. For example, to create a queue with methods named <code>add</code> and <code>remove</code>:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">queue</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nx">queue</span><span class="p">.</span><span class="nx">add</span> <span class="o">=</span> <span class="nx">queue</span><span class="p">.</span><span class="nx">push</span><span class="p">;</span>
+<span class="nx">queue</span><span class="p">.</span><span class="nx">remove</span> <span class="o">=</span> <span class="nx">queue</span><span class="p">.</span><span class="nx">shift</span><span class="p">;</span>
+
+<span class="nx">queue</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">queue</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+</pre></div>
+
+
+<h4 id="binary-tree">Binary Tree</h4>
+<p>A binary tree represents data in a tree of nodes. Each node has a value and two children (left and right). In C, this data structure is usually implemented using structures and pointers. This implementation is possible to do in JavaScript using objects and references; however, for smaller trees, there is an easier and quicker way using only one array. The first item of the array will be the head of the tree. Indexes of left and right child nodes if node <code>i</code> can be calculated using the following formula:</p>
+<div class="codehilite"><pre><span class="nx">leftChild</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">2</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="nx">rightChild</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">2</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+
+
+<p>This image illustrates the method (courtesy of Wikipedia):
+<img alt="Binary tree in an array" src="http://aymanh.com/files/images/Binary_tree_in_array.png" /></p>
+<p>As you see, this method isn't exclusive to JavaScript, but it can be very useful when dealing with small trees. You can, for example, write your own helper functions for getting and setting a node's value or children, and traversing the tree, and those methods will be as simple as doing arithmetic calculations and/or for loops. On the other hand, the disadvantage of this method is that wasted space grows as the depth of the tree increases.</p>
+<h3 id="string-concatenation-vs-arrayjoin">String Concatenation vs. Array.join</h3>
+<p>This cannot be stressed enough, doing many string concatenation operations can be a major hit on performance, and it's easy to avoid in many situations. Consider for example that you want to build a string out of many pieces, one bad way to do this is using the <code>+</code> to concatenate all pieces into a huge string, one piece at a time:</p>
+<div class="codehilite"><pre><span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="cm">/* each piece */</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">str</span> <span class="o">+=</span> <span class="nx">piece</span><span class="p">;</span> <span class="c1">// bad for performance!</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="nx">str</span><span class="p">;</span>
+</pre></div>
+
+
+<p>This method will result in too many intermediate strings and concatenation operations, and will poorly perform overall.</p>
+<p>A better approach to this problem is using <code>Array.join()</code>, this method joins all array elements into one string:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="k">for</span> <span class="p">(</span><span class="cm">/* each piece */</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">tmp</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">piece</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">str</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span> <span class="c1">// Specified an empty separator, thanks Jonathan</span>
+<span class="k">return</span> <span class="nx">str</span><span class="p">;</span>
+</pre></div>
+
+
+<p>This method doesn't suffer from the extra string objects, and generally executes faster.</p>
+<h3 id="binding-methods-to-objects">Binding Methods to Objects</h3>
+<p>Anyone who works with JavaScript events may have come across a situation in which they need to assign an object's method to an event handler. The problem here is that event handlers are called in the context of their HTML element, even if they were originally bound to another object. To overcome this, I use a function that binds a method to an object; it takes an object and method, and returns a function that always calls the method in the context of that object. I found the trick in <a href="http://prototype.conio.net/">Prototype</a>, and wrote the following function to use it in projects that don't include Prototype:</p>
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">method</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">method</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>And this snippet shows how to use the function:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">msg</span><span class="o">:</span> <span class="s1">&#39;Name is&#39;</span><span class="p">,</span>
+  <span class="nx">buildMessage</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">msg</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">alert</span><span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">buildMessage</span><span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">));</span> <span class="c1">// displays: Name is John</span>
+
+<span class="nx">f</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">buildMessage</span><span class="p">;</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">f</span><span class="p">(</span><span class="s1">&#39;Smith&#39;</span><span class="p">));</span> <span class="c1">// displays: undefined Smith</span>
+
+<span class="nx">g</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">buildMessage</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">g</span><span class="p">(</span><span class="s1">&#39;Smith&#39;</span><span class="p">));</span> <span class="c1">// displays: Name is Smith</span>
+</pre></div>
+
+
+<h3 id="sorting-with-a-custom-comparison-function">Sorting With a Custom Comparison Function</h3>
+<p>Sorting is a common task. JavaScript provides a method for sorting arrays. However, the method sorts in alphabetical order by default. Non-string elements are converted to strings before sorting, which leads to unexpected results when working with numbers:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">sort</span><span class="p">()</span>
+<span class="c1">// list is now: [1, 10, 2, 5]</span>
+</pre></div>
+
+
+<p>The explanation of this behavior is simple: Numbers are converted to strings before sorting them, so 10 becomes '10' and 2 becomes '2'. The JavaScript interpreter compares two strings by comparing the first two characters of each: str1 is considered "less than" str2 if str1's first character comes before str2's first character in the character set. In our case, '1' comes before '2' so '10' is less than '2'.</p>
+<p>Fortunately, JavaScript provides a way to override this behavior by letting us supply a comparison function. This function defines how elements are sorted, it takes two compared elements a and b as parameters, and should return:</p>
+<ul>
+<li>A value less than zero if a &lt; b.</li>
+<li>zero if a == b.</li>
+<li>A value greater than zero if a &gt; b.</li>
+</ul>
+<p>Programming such a function for number comparison is trivial:</p>
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">cmp</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">a</span> <span class="o">-</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Now we can sort our array using this function:</p>
+<div class="codehilite"><pre><span class="n">var</span> <span class="n">list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+<span class="n">list</span><span class="o">.</span><span class="nb">sort</span><span class="p">(</span><span class="ow">cmp</span><span class="p">);</span>
+<span class="sr">//</span> <span class="n">list</span> <span class="n">is</span> <span class="n">now:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+</pre></div>
+
+
+<p>This flexibility in <code>Array.sort()</code> allows for more sophisticated sorting. Let's say you have an array of forum posts, each post looks something like:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">post</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nx">author</span><span class="o">:</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span>
+  <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span>
+  <span class="nx">body</span><span class="o">:</span> <span class="s1">&#39;...&#39;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>If you want to sort the array by post id's, create the following comparison function:</p>
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">postCmp</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">id</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>It's reasonable to say that sorting using a native browser method is going to be more efficient than implementing a sort function in JavaScript. Of course, data should be sorted server-side if possible, so this shouldn't be used unless absolutely necessary (for example, when you want to offer more than one sort order on one page, and do the sorting in JavaScript).</p>
+<h3 id="assertion">Assertion</h3>
+<p>Assertion is one of the commonly-used debugging techniques. It's used to ensure that an expression evaluates to true during execution. if the expression evaluates to false, this indicates a possible bug in code. JavaScript lacks a built-in <code>assert</code> function, but fortunately it's easy to write one. The following implementation throws an exception of type <code>AssertException</code> if the passed expression evaluates to false:</p>
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">AssertException</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">message</span><span class="p">;</span> <span class="p">}</span>
+<span class="nx">AssertException</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s1">&#39;AssertException: &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">assert</span><span class="p">(</span><span class="nx">exp</span><span class="p">,</span> <span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">exp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nx">AssertException</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Throwing an exception on its own isn't very useful, but when combined with a helpful error message or a debugging tool, you can detect the problematic assertion. You may also check whether an exception is an assertion exception by using the following snippet:</p>
+<div class="codehilite"><pre><span class="k">try</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">e</span> <span class="k">instanceof</span> <span class="nx">AssertException</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>This function can be used in a way similar to C or Java:</p>
+<div class="codehilite"><pre><span class="nx">assert</span><span class="p">(</span><span class="nx">obj</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;Object is null&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>If obj happens to be null, the following message will be printed in the JavaScript console in Firefox:</p>
+<div class="codehilite"><pre><span class="n">uncaught</span> <span class="n">exception:</span> <span class="n">AssertException:</span> <span class="n">Object</span> <span class="n">is</span> <span class="n">null</span>
+</pre></div>
+
+
+<h3 id="static-local-variables">Static Local Variables</h3>
+<p>Some languages like C++ support the concept of static variables; they are local variables that retain their values between function calls. JavaScript doesn't have a <code>static</code> keyword or direct support for this technique. However, the fact that functions are also objects makes simulating this feature possible. The idea is storing the static variable as a property of the function. Suppose that we want to create a counter function, here is a code snippet that shows this technique in action:</p>
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">count</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">count</span><span class="p">.</span><span class="nx">i</span> <span class="o">==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">count</span><span class="p">.</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">count</span><span class="p">.</span><span class="nx">i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>When <code>count</code> is called for the first time, <code>count.i</code> is undefined, so the if condition is true and <code>count.i</code> is set to 0. Because we are storing the variable as a property, it's going to retain its value between function calls, thus it can be considered a static variable.</p>
+<p>We can introduce a slight performance improvement to the above function by removing that if check and initialize <code>count.i</code> after defining the function:</p>
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">count</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">count</span><span class="p">.</span><span class="nx">i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">count</span><span class="p">.</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+
+
+<p>While the first example encapsulates all of <code>count</code>'s logic in its body, the second example is more efficient. The choice is up to you.</p>
+<h3 id="null-undefined-and-delete">null, undefined, and delete</h3>
+<p>JavaScript is difference from other programming languages by having both <code>undefined</code> and <code>null</code> values, which may cause confusion for newcomers. <code>null</code> is a special value that means "no value". <code>null</code> is usually thought of as a special object because <code>typeof null</code> returns <code>'object'</code>.</p>
+<p>On the other hand, <code>undefined</code> means that the variable has not been declared, or has been declared but not given a value yet. Both of the following snippets display <code>'undefined'</code>:</p>
+<div class="codehilite"><pre><span class="c1">// i is not declared anywhere in code</span>
+<span class="nx">alert</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">i</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+<span class="nx">alert</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">i</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Although that <code>null</code> and <code>undefined</code> are two different types, the == (equality) operator considers them equal, but the === (identity) operator doesn't.</p>
+<p>JavaScript also has a <code>delete</code> operator that "undefines" <strike>an object</strike> a property (thanks zproxy), it can be handy in certain situations, you can apply it to object properties and array members, variables declared with <code>var</code> cannot be deleted, but implicitly declared variables can be:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">val</span><span class="o">:</span> <span class="s1">&#39;Some string&#39;</span>
+<span class="p">}</span>
+
+<span class="nx">alert</span><span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">val</span><span class="p">);</span> <span class="c1">// displays &#39;Some string&#39;</span>
+
+<span class="k">delete</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">val</span><span class="p">;</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">val</span><span class="p">);</span> <span class="c1">// displays &#39;undefined&#39;</span>
+</pre></div>
+
+
+<h3 id="deep-nesting-of-objects">Deep Nesting of Objects</h3>
+<p>If you need to do multiple operations on a deeply nested object, it's better to store a reference to it in a temporary variable instead of dereferencing it each time. For example, suppose that you want to do a series of operations on a textfield accessible by the following construct:</p>
+<div class="codehilite"><pre><span class="nb">document</span><span class="p">.</span><span class="nx">forms</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+
+<p>It's recommended that you store a reference to the textfield in a variable, and use this variable instead of the above construct:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">field</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">forms</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="c1">// Use field in loop</span>
+</pre></div>
+
+
+<p>Each dot results in an operation to retrieve a property, in a loop, these operations do add up, so it's better to do it once, store the object in a variable, and re-use it.</p>
+<h3 id="using-firebug">Using Firebug</h3>
+<p>Firefox has a fabulous extension for debugging JavaScript code called <a href="https://addons.mozilla.org/firefox/1843/">Firebug</a>. It offers an object inspector, a debugger with breakpoints and stack views, and a JavaScript console. It can also monitor Ajax requests. Moreover, the extension provides a set of JavaScript functions and objects to simplify debugging. You may explore them in detail at <a href="http://joehewitt.com/software/firebug/docs.php">Firebug's documentation page</a>. Here are some that I find most useful:</p>
+<h4 id="and">$ and $$</h4>
+<p>Those familiar with Prototype will immediately recognize these two functions.</p>
+<p><code>$()</code> takes a string parameter and returns the DOM element whose id is the passed string.</p>
+<div class="codehilite"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;nav&#39;</span><span class="p">)</span> <span class="c1">// returns the element whose id is #nav.</span>
+</pre></div>
+
+
+<p><code>$$()</code> returns an array of DOM elements that satisfy the passed CSS selector.</p>
+<div class="codehilite"><pre><span class="nx">$$</span><span class="p">(</span><span class="s1">&#39;div li.menu&#39;</span><span class="p">)</span> <span class="c1">// returns an array of li elements that are </span>
+                  <span class="c1">// located inside a div and has the .menu class</span>
+</pre></div>
+
+
+<h4 id="consolelogformat-obj1">console.log(format, obj1, ...)</h4>
+<p>The console object provides methods for displaying log messages in the console. It's more flexible than calling alert. The <code>console.log()</code> method is similar to C's <code>printf</code>. It takes a formatting string and optional additional parameters, and outputs the formatted string to the console:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;i value is %d&#39;</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+<span class="c1">// prints:</span>
+<span class="c1">// i value is 3</span>
+</pre></div>
+
+
+<h4 id="consoletrace">console.trace()</h4>
+<p>This method prints a stack trace where it's called. It doesn't have any parameters.</p>
+<h4 id="inspectobj">inspect(obj)</h4>
+<p>This function takes one parameter. It switches to the inspection tab and inspects the passed object.</p>
+
+
+    </div>
+    <div class="share">
+      <p>
+  <a href="http://twitter.com/home?status=9+JavaScript+Tips+You+May+Not+Know:+http%3A%2F%2Faymanh.com%2F9-javascript-tips-you-may-not-know+via+@aymanh" title="Tweet this post." rel="nofollow"><img src="http://aymanh.com/media/img/share/twitter.png" alt="Twitter" /></a>
+  <a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Faymanh.com%2F9-javascript-tips-you-may-not-know&amp;t=9+JavaScript+Tips+You+May+Not+Know" title="Share on Facebook." rel="nofollow"><img src="http://aymanh.com/media/img/share/facebook.png" alt="Facebook" /></a>
+  <a href="http://www.google.com/buzz/post?url=http%3A%2F%2Faymanh.com%2F9-javascript-tips-you-may-not-know" title="Post on Google Buzz" rel="nofollow"><img src="http://aymanh.com/media/img/share/buzz.png" alt="Google Buzz" /></a>
+  <a href="http://reddit.com/submit?url=http%3A%2F%2Faymanh.com%2F9-javascript-tips-you-may-not-know&amp;title=9+JavaScript+Tips+You+May+Not+Know" title="Submit this post to reddit.com." rel="nofollow"><img src="http://aymanh.com/media/img/share/reddit.png" alt="Reddit" /></a>
+  <a href="http://news.ycombinator.com/submitlink?u=http%3A%2F%2Faymanh.com%2F9-javascript-tips-you-may-not-know&amp;t=9+JavaScript+Tips+You+May+Not+Know" title="Submit this post to Hacker News." rel="nofollow"><img src="http://aymanh.com/media/img/share/hackernews.png" alt="Hacker News" /></a>
+  <a href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Faymanh.com%2F9-javascript-tips-you-may-not-know&amp;title=9+JavaScript+Tips+You+May+Not+Know" title="Thumb this up at StumbleUpon." rel="nofollow"><img src="http://aymanh.com/media/img/share/stumbleit.png" alt="StumbleUpon" /></a>
+  <a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Faymanh.com%2F9-javascript-tips-you-may-not-know&amp;title=9+JavaScript+Tips+You+May+Not+Know" title="Digg this post to digg.com." rel="nofollow"><img src="http://aymanh.com/media/img/share/digg.png" alt="Digg" /></a>
+  <a href="http://del.icio.us/post?url=http%3A%2F%2Faymanh.com%2F9-javascript-tips-you-may-not-know&amp;title=9+JavaScript+Tips+You+May+Not+Know" title="Bookmark this post at del.icio.us." rel="nofollow"><img src="http://aymanh.com/media/img/share/delicious.png" alt="Delicious" /></a>
+</p>
+
+    </div>
+    <div class="post-info">
+      
+
+Tags: <ul class="tags">
+  
+    <li><a href="/category/article" class="tag">Article</a>,</li>
+  
+    <li><a href="/category/javascript" class="tag">JavaScript</a>,</li>
+  
+    <li><a href="/category/tips" class="tag">Tips</a>,</li>
+  
+    <li><a href="/category/webdev" class="tag">WebDev</a></li>
+  
+</ul>
+<ul>
+  <li>| <a href="/9-javascript-tips-you-may-not-know" class="permalink" title="Permanent link to this post.">Permalink</a></li>
+  
+  <li>| <a href="/9-javascript-tips-you-may-not-know#comments" class="comment-count">63 comments</a></li>
+  <li>| <span class="date">Posted by <a href="/">Ayman Hourieh</a> on September 27, 2006.</span></li>
+</ul>
+
+    </div>
+  </div>
+
+  
+  
+  <div id="comments">
+    <a name="comments"></a>
+    <h3 class="comments-title">Comments</h3>
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c203"></a>
+          <a rel="nofollow" href="http://zproxy.wordpress.com">zproxy</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/2715af7f0438dfabd6bb24452487b62d?d=identicon&amp;s=40" alt="zproxy's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>instead of using console one can use firefox <code>window.dump(&lt;string&gt;)&lt;/string&gt;</code> method.</p>
+<p>also delete is for removing a member of a type.</p>
+<p>you can also do <code>&lt;expr&gt; = void(0)&lt;/expr&gt;</code>, which also sets a variable to undefined state.</p>
+<p>I did not understand the binary tree section. maybe you can clarify.</p>
+<p>cheers</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c203" title="Permanent link to this comment.">Posted at 9:02 a.m. on October 8, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment superuser">
+        <h5 class="comment-name">
+          <a name="c204"></a>
+          <a  href="http://aymanh.com/">Ayman Hourieh</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Ayman Hourieh's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Hi,</p>
+<p>Thanks for your feedback. Regarding delete, while I did mention that it removes properties, the opening sentence is ambiguous. I've correct it. Thanks.</p>
+<p>As for binary trees, I'll try to clarify the concept briefly. Suppose that you have the following tree:</p>
+<div class="codehilite"><pre><span class="n">a</span>
+ <span class="o">/</span>  <span class="o">\</span>
+<span class="n">b</span>    <span class="n">c</span>
+    <span class="o">/</span> <span class="o">\</span>
+   <span class="n">d</span>   <span class="n">e</span>
+</pre></div>
+
+
+<p><code>a</code> is the head of the tree. Therefore, we will store it at the beginning of the array:</p>
+<div class="codehilite"><pre><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+</pre></div>
+
+
+<p><code>b</code> and <code>c</code> are children of <code>a</code>, and <code>a</code>'s index is 0. According to the formulas I posted:</p>
+<div class="codehilite"><pre><span class="n">Index</span> <span class="n">of</span> <span class="n">a</span><span class="s">&#39;s left child = 2 * (a&#39;</span><span class="n">s</span> <span class="nb">index</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+
+
+<p>So <code>b</code> will be stored at index 1. For <code>c</code>, we will do the same thing, but use the right child formula:</p>
+<div class="codehilite"><pre><span class="n">Index</span> <span class="n">of</span> <span class="n">a</span><span class="s">&#39;s right child = 2 * (a&#39;</span><span class="n">s</span> <span class="nb">index</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+
+
+<p>Our array now looks like:</p>
+<div class="codehilite"><pre><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+</pre></div>
+
+
+<p>Now let's see where to store <code>c</code>'s children:</p>
+<div class="codehilite"><pre><span class="n">Index</span> <span class="n">of</span> <span class="n">c</span><span class="s">&#39;s left child = 2 * (c&#39;</span><span class="n">s</span> <span class="nb">index</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">Index</span> <span class="n">of</span> <span class="n">c</span><span class="s">&#39;s right child = 2 * (c&#39;</span><span class="n">s</span> <span class="nb">index</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">6</span>
+</pre></div>
+
+
+<p>And the array becomes:</p>
+<div class="codehilite"><pre><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s">&#39;undefined&#39;</span><span class="p">,</span> <span class="s">&#39;undefined&#39;</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">]</span>
+</pre></div>
+
+
+<p>Notice how there are 2 undefined positions in the array. If <code>b</code> had children, they would be stored there.</p>
+<p>Hope this clears things up.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c204" title="Permanent link to this comment.">Posted at 4:58 p.m. on October 8, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c205"></a>
+          <a rel="nofollow" href="http://www.svnforum.org">Anonymous</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Hi:</p>
+<p>These is great information you are sharing. </p>
+<p>Thanks,</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c205" title="Permanent link to this comment.">Posted at 6:59 p.m. on October 8, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c206"></a>
+          Anonymous
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Good info, thanks!</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c206" title="Permanent link to this comment.">Posted at 7:25 p.m. on October 8, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c207"></a>
+          Anonymous
+        </h5>
+        <img src="http://www.gravatar.com/avatar/15e5af83ecb29f1ce895fbf9839d2b8b?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Excellent tips and a very useful  website!  Dugg and submitted this article at howtohut <a rel="nofollow" href="http://www.howtohut.com/9_javascript_tips_you_may_not_know">http://www.howtohut.com/9_javascript_tips_you_may_not_know</a></p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c207" title="Permanent link to this comment.">Posted at 9:30 p.m. on October 8, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c208"></a>
+          <a rel="nofollow" href="http://www.mikeatlas.com">Mike Atlas</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/292fd1d3a18cee7c77ec34dccd9c004f?d=identicon&amp;s=40" alt="Mike Atlas's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>You neglected one of the most fundamentally important things about JavaScript that most people do not know:</p>
+<p>It treats functions as <a rel="nofollow" href="http://en.wikipedia.org/wiki/First_class_function">first class values</a>.</p>
+<p>In other words, you can do great things like this in JavaScript:</p>
+<div class="codehilite"><pre><span class="n">var</span> <span class="n">averageOfTwo</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">alert</span><span class="p">(</span> <span class="n">averageOfTwo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="p">);</span>
+</pre></div>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c208" title="Permanent link to this comment.">Posted at 12:14 a.m. on October 9, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment superuser">
+        <h5 class="comment-name">
+          <a name="c210"></a>
+          <a  href="http://aymanh.com/">Ayman Hourieh</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Ayman Hourieh's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>I didn't neglect it. I assumed that the reader was aware of this feature. It's used in tip #1 in which a synonym for push is created, and in #3 in which the returned bound function is an anonymous function.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c210" title="Permanent link to this comment.">Posted at 1:41 a.m. on October 9, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c211"></a>
+          Alok
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Alok's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>This is a real good and informative article. I have started working in javascript for last few months. I am getting more and more impressed by its little tricks and dynamicity of the language. 
+Awesome work. Thanks</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c211" title="Permanent link to this comment.">Posted at 2:50 a.m. on October 9, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c212"></a>
+          <a rel="nofollow" href="http://wwww.flapjax-lang.org">leo</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/c717956650b5d45b062885d322c220e6?d=identicon&amp;s=40" alt="leo's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>For the counter example, an immediate function application returning a function is a common and clear pattern when constructing functions with local state:</p>
+<p>functionFoo = (function () { var counter = 0; return function () { return counter++; }; })();</p>
+<p>Two syntactic forms I would mention are:</p>
+<ol>
+<li>functional if:  ?  : </li>
+</ol>
+<p>Instead of </p>
+<p>var x;
+if (test) { x = branch1; } else { x = branch2; }</p>
+<p>do</p>
+<p>var x = test ? branch1 : branch2;</p>
+<ol>
+<li>sequencing: (*)</li>
+</ol>
+<p>when not using the above function application with a stateful function return, a light version would be something like</p>
+<p>someFunction((y+=4, x+=y), z) being shorthand for </p>
+<p>y+=4
+x+=y
+someFunction(x,z)</p>
+<ul>
+<li>
+<p>Leo</p>
+</li>
+<li>
+<p>Leo</p>
+</li>
+</ul>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c212" title="Permanent link to this comment.">Posted at 4:56 a.m. on October 9, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c213"></a>
+          Anonymous
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Useful info, thanks!</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c213" title="Permanent link to this comment.">Posted at 11:02 a.m. on October 9, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c214"></a>
+          <a rel="nofollow" href="http://www.fewagainstmany.com">Tim</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/509a1651aa69233889051580cd9664f3?d=identicon&amp;s=40" alt="Tim's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>THANKS for the custom sort function, <strong>it's sooo useful !</strong> thanks !</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c214" title="Permanent link to this comment.">Posted at 12:30 p.m. on October 9, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c215"></a>
+          <a rel="nofollow" href="http://in.geocities.com/rsramsam">rsr</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/418a24b5d4e766bc95adfe6e8f425a1e?d=identicon&amp;s=40" alt="rsr's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>May I know if   javascript can read and write to a local disc file?</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c215" title="Permanent link to this comment.">Posted at 4:55 p.m. on October 9, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment superuser">
+        <h5 class="comment-name">
+          <a name="c216"></a>
+          <a  href="http://aymanh.com/">Ayman Hourieh</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Ayman Hourieh's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>In short, no. JavaScript is not allowed to read or write to the local file system for security reasons. Use cookies for local storage.</p>
+<p>However, some browsers allow sufficiently-privileged scripts to access the local file system. For example, Mozilla browsers allow installed extensions to access local files. <a rel="nofollow" href="http://www.faqts.com/knowledge_base/view.phtml/aid/23360/fid/53">Check this page for some code samples</a>.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c216" title="Permanent link to this comment.">Posted at 6:08 p.m. on October 9, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c219"></a>
+          SAAL
+        </h5>
+        <img src="http://www.gravatar.com/avatar/83dd2d1be622b54fe171e6a6085ccc90?d=identicon&amp;s=40" alt="SAAL's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>is everything above compatible with most browsers? I mean, is there anything here olny compatible with curring edge JS processors?</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c219" title="Permanent link to this comment.">Posted at 2:44 p.m. on October 10, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment superuser">
+        <h5 class="comment-name">
+          <a name="c220"></a>
+          <a  href="http://aymanh.com/">Ayman Hourieh</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Ayman Hourieh's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Yeah, except for the last one (Firebug, which is obviously Firefox-only), all tips should be compatible with modern browsers (Gecko based, IE 5.5+, KHTML, Opera).</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c220" title="Permanent link to this comment.">Posted at 6:50 p.m. on October 10, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c221"></a>
+          Jonathan
+        </h5>
+        <img src="http://www.gravatar.com/avatar/6b42c6c432b27ed6c4a21e03c494b989?d=identicon&amp;s=40" alt="Jonathan's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>I tried your Array.join technique for string concatenation, but it adds a comma between every part of the array. Like,this,you,know,what,I,mean?</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c221" title="Permanent link to this comment.">Posted at 3:22 p.m. on October 11, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c222"></a>
+          Jonathan
+        </h5>
+        <img src="http://www.gravatar.com/avatar/6b42c6c432b27ed6c4a21e03c494b989?d=identicon&amp;s=40" alt="Jonathan's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>ah I found the answer.. you need to use var.join("") instead of var.join()</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c222" title="Permanent link to this comment.">Posted at 3:29 p.m. on October 11, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c223"></a>
+          Jonathan
+        </h5>
+        <img src="http://www.gravatar.com/avatar/6b42c6c432b27ed6c4a21e03c494b989?d=identicon&amp;s=40" alt="Jonathan's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>I did a little more investigation into this, and the technique as described on http://www.comet.co.il/en/articles/performance/article.html is alot faster..</p>
+<p>it uses buffer[buffer.length] = "somedata"
+instead of buffer.push("somedate")</p>
+<p>in my tests it's about 20 times as fast..</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c223" title="Permanent link to this comment.">Posted at 3:39 p.m. on October 11, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment superuser">
+        <h5 class="comment-name">
+          <a name="c224"></a>
+          <a  href="http://aymanh.com/">Ayman Hourieh</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Ayman Hourieh's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Interesting observation. What browser(s) did you test with?</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c224" title="Permanent link to this comment.">Posted at 10:04 p.m. on October 11, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c225"></a>
+          <a rel="nofollow" href="http://20y.hu/">Gr</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/a73599568e9ab3c8db26a80b810f6af3?d=identicon&amp;s=40" alt="Gr's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>IE 6 and FF 1.5B1</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c225" title="Permanent link to this comment.">Posted at 9:10 a.m. on October 12, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment superuser">
+        <h5 class="comment-name">
+          <a name="c226"></a>
+          <a  href="http://aymanh.com/">Ayman Hourieh</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Ayman Hourieh's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Tested with Firefox and looks like <code>array[array.length] = val</code> is indeed faster than <code>array.push(val)</code>. Interesting. Thanks Jonathan and Gr!</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c226" title="Permanent link to this comment.">Posted at 4:54 p.m. on October 12, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c227"></a>
+          <a rel="nofollow" href="http://www.snook.ca/jonathan/">Anonymous</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/ce0f8df84e1e4edb3d9999740472261a?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>IE5 (or more accurately, JScript 5.0) did not have support for Array.push among a number of other things like the call or apply methods. Also interesting to note is that Microsoft still considers IE5.0 a supported browser (because of the support window for Windows 2000 for which IE5 was the default browser)  whereas Microsoft has discontinued support for IE5.5. Somewhat moot as nobody should really be using either of them.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c227" title="Permanent link to this comment.">Posted at 2:30 a.m. on October 15, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c228"></a>
+          Wes
+        </h5>
+        <img src="http://www.gravatar.com/avatar/3764c5abd8456d122322acc3108cb8db?d=identicon&amp;s=40" alt="Wes's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Tested the following on FF2.0 (Mac G4 1.25 GHz ) and concat was 3x faster. Unless my test is flawed somehow (please tell me!).</p>
+<div class="codehilite"><pre><span class="n">function</span> <span class="n">concat</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">start</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">();</span>
+    <span class="n">var</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">2000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">s</span><span class="o">+=</span> <span class="s">&quot;string&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">alert</span><span class="p">(</span><span class="k">new</span> <span class="n">Date</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">);</span> <span class="sr">//</span> <span class="n">gives</span> <span class="mi">2</span> <span class="ow">or</span> <span class="mi">3</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">buffer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">start</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">();</span>
+    <span class="n">var</span> <span class="n">s</span> <span class="o">=</span> <span class="o">[]</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">2000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="sr">s[i] </span><span class="err">= &quot;string&quot;;</span>
+    <span class="p">}</span>
+    <span class="n">var</span> <span class="n">joined</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="nb">join</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+    <span class="n">alert</span><span class="p">(</span><span class="k">new</span> <span class="n">Date</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">);</span> <span class="sr">//</span> <span class="n">gives</span> <span class="mi">9</span>
+<span class="p">}</span>
+</pre></div>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c228" title="Permanent link to this comment.">Posted at 2:22 a.m. on October 29, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c229"></a>
+          Wes
+        </h5>
+        <img src="http://www.gravatar.com/avatar/3764c5abd8456d122322acc3108cb8db?d=identicon&amp;s=40" alt="Wes's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>OK, concat() may cause trouble because it's the name of a String object method, though it shouldn't. Regardless, I tested again on a Windows machine, faster than my Mac, and had to increase the number of iterations to 8000 to get decent results. The results were wildly inconsistent in both FF2 and IE7, but on average using the concat is generally a bit faster in FF, but slower in IE. So I guess it depends which browser you want to optimize for. But how often do you need to build a string that large? And we're talking about differences of milliseconds -- It really makes very little difference practically, as far as I can tell.</p>
+<div class="codehilite"><pre><span class="n">function</span> <span class="n">makeString</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">var</span> <span class="n">start</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">();</span>
+  <span class="n">var</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">8000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">s</span><span class="o">+=</span> <span class="s">&quot;string&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">alert</span><span class="p">(</span><span class="k">new</span> <span class="n">Date</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">);</span> <span class="sr">//</span> <span class="n">faster</span> <span class="n">in</span> <span class="n">FF</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">buffer</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">var</span> <span class="n">start</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">();</span>
+  <span class="n">var</span> <span class="n">s</span> <span class="o">=</span> <span class="o">[]</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">8000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="sr">s[i] </span><span class="err">= &quot;string&quot;;</span>
+  <span class="p">}</span>
+  <span class="n">var</span> <span class="n">joined</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="nb">join</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+  <span class="n">alert</span><span class="p">(</span><span class="k">new</span> <span class="n">Date</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">);</span> <span class="sr">//</span> <span class="n">faster</span> <span class="n">in</span> <span class="n">IE</span>
+<span class="p">}</span>
+</pre></div>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c229" title="Permanent link to this comment.">Posted at 3:40 p.m. on October 31, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment superuser">
+        <h5 class="comment-name">
+          <a name="c230"></a>
+          <a  href="http://aymanh.com/">Ayman Hourieh</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Ayman Hourieh's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Hi,</p>
+<p>I remember running into similar results when I conducted my tests. I think that this test doesn't reflect real situations in which one needs to concatenate a large number of strings for two reasons:</p>
+<ul>
+<li>The resulting string (<code>s</code>) is not returned or used anywhere in the function. I think that Firefox optimizes away the <code>for</code> loop, which results in great improvements to performance. Try to make <code>s</code> a global variable for example, and see how it goes. If I recall correctly, results changed dramatically in my tests after this modification.</li>
+<li>Mozilla browsers perform better when the right side of the concatenation is a string literal. Try to replace <code>"string"</code> with <code>"string" + i</code> (For example).</li>
+</ul>
+<p>Thanks for your feedback, and I hope that my reply sheds some light on the issue.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c230" title="Permanent link to this comment.">Posted at 5:02 p.m. on November 1, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c231"></a>
+          Tommy
+        </h5>
+        <img src="http://www.gravatar.com/avatar/3173e14ffeae9b6a58b7503e9a313e9a?d=identicon&amp;s=40" alt="Tommy's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>about:blank</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c231" title="Permanent link to this comment.">Posted at 7:35 p.m. on December 6, 2006</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c232"></a>
+          Bill Burdick
+        </h5>
+        <img src="http://www.gravatar.com/avatar/5ad6635635270fd81ab229ece9b2d2a0?d=identicon&amp;s=40" alt="Bill Burdick's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Since you can't use objects as keys in Javascript's associative arrays (keys are converted to strings, like "[object Object]"), here is a trick you can use to implement sets:</p>
+<div class="codehilite"><pre><span class="n">var</span> <span class="n">SET_ID</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">SET_KEY</span> <span class="o">=</span> <span class="s">&#39; set id &#39;</span><span class="p">;</span>
+
+<span class="n">function</span> <span class="n">getId</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">SET_KEY</span> <span class="n">in</span> <span class="n">obj</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">obj</span><span class="p">[</span><span class="n">SET_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">SET_KEY</span> <span class="o">+</span> <span class="s">&quot;: &quot;</span> <span class="o">+</span> <span class="n">SET_ID</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="n">SET_KEY</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>You can use <code>getId(obj)</code> to get a unique key for each of your objects that you want to store in sets (kind of like <code>hashCode()</code> in Java).</p>
+<p>To store an object in a set: <code>set[getid(obj)] = obj;</code></p>
+<p>to test if the object is in the set: <code>if (getId(obj) in set) {...}</code></p>
+<p>to remove an object from a set: <code>delete set[getId(obj)]</code></p>
+<p>Bill Burdick</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c232" title="Permanent link to this comment.">Posted at 11:15 p.m. on January 16, 2007</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c233"></a>
+          Subodh
+        </h5>
+        <img src="http://www.gravatar.com/avatar/cc171b0ce81b943cd9e67cb5ee965d17?d=identicon&amp;s=40" alt="Subodh's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>how to implement tree (not binary one) </p>
+<p>give complete information how to implement tree(e.g. windows explorer tree)  and also give method to traverse tree effectively,
+method to select  particular node and how to put in memory tree in visual effect</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c233" title="Permanent link to this comment.">Posted at 5:48 a.m. on February 28, 2007</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c234"></a>
+          javed
+        </h5>
+        <img src="http://www.gravatar.com/avatar/0b81438c68e9c2ae2ed6b23643024ffa?d=identicon&amp;s=40" alt="javed's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>i have many difficulties to learn javascript sir i have no understanding about its function therefore i am not able to a good scripting. sir plz can u help me in this case?</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c234" title="Permanent link to this comment.">Posted at 7:58 a.m. on May 8, 2007</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c235"></a>
+          Anonymous
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>It is misleading to say that "==" considers null and undefined equal. undefined is not a value, it is the absence of a value, whereas null is a value that is interpreted to mean nothing. The difference?</p>
+<p>var null = "hello world"; // error
+alert(null);</p>
+<p>var undefined = "goodbye cruel world";
+alert(undefined); // "goodbye cruel world"</p>
+<p>"undefined" is essentially what an empty variable is represented as when asked for a string representation.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c235" title="Permanent link to this comment.">Posted at 7:45 p.m. on August 18, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c236"></a>
+          <a rel="nofollow" href="http://beebo.org">Michael S.</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/3928085cafc1e496fb3d990a9959f233?d=identicon&amp;s=40" alt="Michael S.'s gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Can you use arguments.callee to avoid having to repeat the name of the function in the body of the function?  "return arguments.callee.i++", etc.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c236" title="Permanent link to this comment.">Posted at 9:25 p.m. on August 18, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c237"></a>
+          Frank Watts
+        </h5>
+        <img src="http://www.gravatar.com/avatar/1002d0663aac1ee619bdbdcb945a78a2?d=identicon&amp;s=40" alt="Frank Watts's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Best tip anyone ever gave me was to just Disable Javascript and that has worked for years!</p>
+<p>FW
+http://useurl.us/12m</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c237" title="Permanent link to this comment.">Posted at 3:52 a.m. on August 19, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c238"></a>
+          grillonbleu
+        </h5>
+        <img src="http://www.gravatar.com/avatar/9b3529b7fc30d4df3597cc35437e2a6b?d=identicon&amp;s=40" alt="grillonbleu's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>When i see all these trendy $ functions i wonder whatever happened to meaningful function names. Two popular libraries that i know of (and probably more i am not aware of) define $.  If i am not developping something trivially small, i prefer to avoid any future name clash by just avoiding these shorthands and use the full function name instead (jQuery(...), etc.). Furthermore, it is clearer for any future maintainer.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c238" title="Permanent link to this comment.">Posted at 5:01 a.m. on August 19, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c239"></a>
+          Nick
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Nick's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>You can more transparently achieve the same thing by implementing toString() for the objects you'd like to use as keys.<br />
+</p>
+<div class="codehilite"><pre><span class="n">var</span> <span class="n">o1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="p">();</span>
+<span class="n">var</span> <span class="n">o2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="p">();</span>
+
+<span class="n">var</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Array</span><span class="p">();</span>
+<span class="n">a</span><span class="p">[</span><span class="n">o1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;o1&quot;</span><span class="p">;</span>
+<span class="n">a</span><span class="p">[</span><span class="n">o2</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;o2&quot;</span><span class="p">;</span>
+
+<span class="n">alert</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">o1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">o2</span><span class="p">]);</span>  <span class="sr">//</span> <span class="n">Alerts</span> <span class="s">&quot;o2, o2&quot;</span><span class="o">.</span>
+
+<span class="n">o1</span><span class="o">.</span><span class="n">toString</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span> <span class="p">};</span>
+<span class="n">o2</span><span class="o">.</span><span class="n">toString</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span> <span class="p">};</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Array</span><span class="p">();</span>
+<span class="n">a</span><span class="p">[</span><span class="n">o1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;o1&quot;</span><span class="p">;</span>
+<span class="n">a</span><span class="p">[</span><span class="n">o2</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;o2&quot;</span><span class="p">;</span>
+
+<span class="n">alert</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">o1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">o2</span><span class="p">]);</span>  <span class="sr">//</span> <span class="n">Alerts</span> <span class="s">&quot;o1, o2&quot;</span><span class="o">.</span>
+</pre></div>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c239" title="Permanent link to this comment.">Posted at 2:33 p.m. on August 19, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c240"></a>
+          Anonymous
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>That is not an example of first-class functions, anyway: you're just calling the <code>alert()</code> function with the <em>result</em> of evaluating the <code>averageOfTwo(1, 3)</code> function. Any reasonable language supports that; what is slightly less common is the ability to treat functions as first-class values.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c240" title="Permanent link to this comment.">Posted at 4:53 p.m. on August 19, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c241"></a>
+          Anonymous
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Also worthy of note is that one can obtain the updated script engine for their ancient 5.x browser as a separate install.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c241" title="Permanent link to this comment.">Posted at 10:16 p.m. on August 21, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c242"></a>
+          Bernhard
+        </h5>
+        <img src="http://www.gravatar.com/avatar/47dda6a7266bcf923e20b6fe7072039b?d=identicon&amp;s=40" alt="Bernhard's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Arrays also make great containers for static data that can then be used by auto-write scripts. See <a rel="nofollow" href="http://dozykraut.blogspot.com/2008/07/semi-static-webpresence.html">this little handrolled example</a>.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c242" title="Permanent link to this comment.">Posted at 5:57 p.m. on August 23, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c243"></a>
+          Anonymous
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>there's also an obvious problem with your test, namely, the thread that firefox spawns to perform the javascript interpretation of your test code is at the mercy of the scheduling algorithm and the amount of applications running concurrently on the machine you are testing with because you are relying on time of the current date rather than how many cpu clock cycles are spun during your specific test.  Google "understanding how an operating system works" for more information.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c243" title="Permanent link to this comment.">Posted at 12:01 a.m. on September 15, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c244"></a>
+          Ricardo
+        </h5>
+        <img src="http://www.gravatar.com/avatar/47923b1f334d8e3f7a00506ac3c7a636?d=identicon&amp;s=40" alt="Ricardo's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Been a long time, huh?</p>
+<p>In your 'static local variables' example, the 'i' property is not local. It's globally accessible through count.i for any function running in the same window.</p>
+<p>Something like</p>
+<p>function count() {
+    this.count = function(){ return ++i };
+    return i=0;
+}</p>
+<p>makes more sense. The 'i' var is only retained inside the inner function's closure, and it's not accessible in any other way than by calling the count function itself. You can get a small performance increase by the use of pre-increment also.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c244" title="Permanent link to this comment.">Posted at 9:23 p.m. on October 8, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c245"></a>
+          Ricardo
+        </h5>
+        <img src="http://www.gravatar.com/avatar/47923b1f334d8e3f7a00506ac3c7a636?d=identicon&amp;s=40" alt="Ricardo's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>You can avoid conflicts between libraries and still use the $ function.</p>
+<p></p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c245" title="Permanent link to this comment.">Posted at 9:25 p.m. on October 8, 2008</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c246"></a>
+          _es
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="_es's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p><code>with({counter:0}) var functionFoo2 = function(){return counter++;};</code></p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c246" title="Permanent link to this comment.">Posted at 5:33 a.m. on January 28, 2009</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c247"></a>
+          _es
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="_es's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>var count1 = function(){var n = 0; return function(){return n++;};}();
+    with({n:0})var count2 = function(){return n++;};</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c247" title="Permanent link to this comment.">Posted at 7 a.m. on January 28, 2009</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c248"></a>
+          <a rel="nofollow" href="http://www.keepondev.wordpress.com">Mostafa Farghaly</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/ce16b7ab2a80ff47847493c758abb794?d=identicon&amp;s=40" alt="Mostafa Farghaly's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Great article ayman , i reach it from google searching for queue and stacks while i was writing one on my blog .</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c248" title="Permanent link to this comment.">Posted at 4:15 p.m. on March 3, 2009</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c249"></a>
+          Palanisamy
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Palanisamy's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Excellent post . Keep up the good work.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c249" title="Permanent link to this comment.">Posted at 9:28 a.m. on March 24, 2009</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c250"></a>
+          Anonymous
+        </h5>
+        <img src="http://www.gravatar.com/avatar/23133d37525e3101653e22a089c9c5b2?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Nice explanation.  Just from your explanation, it's easy to derive a binary tree class, complete with manipulation methods (e.g.: add, remove, get, find, etc.).  The math is simple and constant.</p>
+<p>Thanks
+Michael</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c250" title="Permanent link to this comment.">Posted at 3:57 a.m. on September 19, 2009</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c251"></a>
+          Anonymous
+        </h5>
+        <img src="http://www.gravatar.com/avatar/23133d37525e3101653e22a089c9c5b2?d=identicon&amp;s=40" alt="Anonymous's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>It's not that <em>JavaScript</em>, per se, is not allowed to read/write to and from the local file system; rather, it's the JavaScript <em>runtime_engine</em> that disallows it.  If you wanted to, you could hack Mozilla so as to link extra (non-standard) JS methods to low-level filesystem-handling code.  Then you could call a File.open(...) JS method and it would get dispatched internally to custom file-handling methods (presumably C or C++ on most platforms; maybe Obj. C under OS X).</p>
+<p>Of course, it would never gain widespread adoption for security reasons.</p>
+<p>Michael</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c251" title="Permanent link to this comment.">Posted at 4:07 a.m. on September 19, 2009</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c252"></a>
+          Brent
+        </h5>
+        <img src="http://www.gravatar.com/avatar/488d67517781a9cb5becb4d009f06787?d=identicon&amp;s=40" alt="Brent's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Stumbled on this during a google journey...</p>
+<p>Great post. Thanks a bunch for the great read!</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c252" title="Permanent link to this comment.">Posted at 5:29 p.m. on September 27, 2009</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c253"></a>
+          <a rel="nofollow" href="http://usingmypc.blogspot.com/">Daniele</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/124f553761df5a9e82ebaac897caa25d?d=identicon&amp;s=40" alt="Daniele's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>A good recap of some important features of Javascript, thanks!
+Apart from that, good luck with Dublin weather! :)</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c253" title="Permanent link to this comment.">Posted at 10:07 a.m. on October 6, 2009</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c451"></a>
+          Moe
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Moe's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>It's weird, but upon reading the first several, all I could think about was Perl.  I'm already familiar with push/pop/shift/unshift/join/etc. because it has all of those, too.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c451" title="Permanent link to this comment.">Posted at 8:41 a.m. on May 6, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c452"></a>
+          <a rel="nofollow" href="http://larholm.com/">Thor Larholm</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Thor Larholm's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Your example with static local variables exposes i as a public property on the function object.</p>
+<p>This can be undesirable if you want to encapsulate your logic and prevent outside tampering of i.</p>
+<p>You can solve this with a closure.</p>
+<div class="codehilite"><pre><span class="n">function</span> <span class="n">count</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">count</span> <span class="o">=</span> <span class="n">function</span> <span class="n">count</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">})();</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>On the first invocation, count will be changed into a new function that has a private variable i in its function closure scope.</p>
+<p>If you look at count.toString() after the first invocation you will see that it now contains the following code:</p>
+<div class="codehilite"><pre><span class="n">function</span> <span class="n">count</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c452" title="Permanent link to this comment.">Posted at 8:54 a.m. on May 6, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c456"></a>
+          <a rel="nofollow" href="http://kozak.si/widethoughts">gasper_k</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/88af6d1a983eb4423dbb8343857b8079?d=identicon&amp;s=40" alt="gasper_k's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>About <strong>null, undefined, and delete</strong>: you can't delete a property that exists in the <em>window</em> object in IE. See <a rel="nofollow" href="http://kozak.si/widethoughts/2009/11/08/deleting-window-and-document-properties/">here</a> for more detail.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c456" title="Permanent link to this comment.">Posted at 10:52 a.m. on May 6, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c458"></a>
+          <a rel="nofollow" href="http://www.mynext.co.uk/">steve</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/943a6a1bb8566735b1bfaf8bd8c0d45d?d=identicon&amp;s=40" alt="steve's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Thank you, some hadn't heard about in there</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c458" title="Permanent link to this comment.">Posted at 2:02 p.m. on May 6, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c459"></a>
+          <a rel="nofollow" href="http://www.msg2send.com/">Adam</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/8c0a0f4f62a3b43e651cefc83efaa1ac?d=identicon&amp;s=40" alt="Adam's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Re: Sorting With a Custom Comparison Function</p>
+<p>function cmp(a, b) {
+  return a - b;
+}</p>
+<p>In Java, it will lead to IntegerOverflow in extreme case. Never tried in javascript though.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c459" title="Permanent link to this comment.">Posted at 2:14 p.m. on May 6, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c460"></a>
+          <a rel="nofollow" href="http://www.michaelpaul.com.br/">Michael Paul</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/c0c02927e2d6773a19f914730480b173?d=identicon&amp;s=40" alt="Michael Paul's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Something very important that you need to know is how to handle the scope. The wrong way:</p>
+<div class="codehilite"><pre><span class="n">var</span> <span class="n">Widget</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">this</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+
+    <span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="n">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="n">alert</span><span class="p">(</span><span class="s">&#39;widget name: &#39;</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">name</span><span class="p">);</span>
+    <span class="p">},</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="p">};</span>
+
+<span class="n">var</span> <span class="n">wg</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Widget</span><span class="p">(</span><span class="s">&#39;Tooltip&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>This example will cause an error because the anonymous function  will be called from window scope. And the right way to do it:</p>
+<div class="codehilite"><pre><span class="n">var</span> <span class="n">Widget</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">this</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+    <span class="sr">//</span> <span class="n">reference</span> <span class="n">to</span> <span class="o">*</span><span class="n">this</span><span class="o">*</span> <span class="n">scope</span>
+    <span class="n">var</span> <span class="n">self</span> <span class="o">=</span> <span class="n">this</span><span class="p">;</span>
+
+    <span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="n">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="n">alert</span><span class="p">(</span><span class="s">&#39;widget name: &#39;</span> <span class="o">+</span> <span class="n">self</span><span class="o">.</span><span class="n">name</span><span class="p">);</span>
+    <span class="p">},</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="p">};</span>
+
+<span class="n">var</span> <span class="n">wg</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Widget</span><span class="p">(</span><span class="s">&#39;Tooltip&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c460" title="Permanent link to this comment.">Posted at 2:24 p.m. on May 6, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c462"></a>
+          <a rel="nofollow" href="http://www.reddit.com/r/javascript/comments/c0i93/9_javascript_tips_you_may_not_know_old_link_but/">random</a>
+        </h5>
+        <img src="http://www.gravatar.com/avatar/66574e5e54c85ce4ffe454634138dd07?d=identicon&amp;s=40" alt="random's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>count() has generated a few comments.  Aesthetically, I prefer _es' version of, or the following if with is not available:</p>
+<div class="codehilite"><pre><span class="n">count</span> <span class="o">=</span> <span class="p">(</span><span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">++</span><span class="n">i</span>
+    <span class="p">}</span>
+<span class="p">})();</span>
+</pre></div>
+
+
+<p>Of course, for this specific problem I'd use:</p>
+<div class="codehilite"><pre><span class="n">function</span> <span class="n">counter</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>but that's showing off first class functions, not private variables :-).  Thor's example is an interesting demo of a function replacing itself when called, but I can't think of a mind-bending yet not evil reason to do that.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c462" title="Permanent link to this comment.">Posted at 3:45 p.m. on May 6, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c463"></a>
+          random
+        </h5>
+        <img src="http://www.gravatar.com/avatar/66574e5e54c85ce4ffe454634138dd07?d=identicon&amp;s=40" alt="random's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Also, Michael's comment is important .. and an instance of when bind() is useful. If I'm not mistaken usage would be:</p>
+<div class="codehilite"><pre><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="nb">bind</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span><span class="n">alert</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">name</span><span class="p">)}));</span>
+</pre></div>
+
+
+<p>Mention could also be made of avoiding reference cycles and letting the collector free more memory, but I think that's out of <em>scope</em> here.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c463" title="Permanent link to this comment.">Posted at 3:55 p.m. on May 6, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c645"></a>
+          Rajan
+        </h5>
+        <img src="http://www.gravatar.com/avatar/c2cadbfe94405fd3072df949ce26e876?d=identicon&amp;s=40" alt="Rajan's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Innovative information about "Binding Methods to Objects".
+Thanks for Sharing. </p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c645" title="Permanent link to this comment.">Posted at 6:32 a.m. on June 8, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c741"></a>
+          Pacifik
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Pacifik's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Very grt info..&amp; useful 1
+thnks</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c741" title="Permanent link to this comment.">Posted at 9:53 a.m. on June 30, 2010</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c3450"></a>
+          Nope
+        </h5>
+        <img src="http://www.gravatar.com/avatar/4c8a9bec5a27b66b28d3c5cddeb70e93?d=identicon&amp;s=40" alt="Nope's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Um it's not OOP, from the very first sentence you are wrong. </p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c3450" title="Permanent link to this comment.">Posted at 5:10 p.m. on June 17, 2011</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c3473"></a>
+          Robert
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Robert's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Ummm - yes it is. But the OOP syntax is fundamentally different from most other languages that you will see....</p>
+<p>And thanks for the article!</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c3473" title="Permanent link to this comment.">Posted at 11:37 p.m. on June 18, 2011</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c3905"></a>
+          ujjaini
+        </h5>
+        <img src="http://www.gravatar.com/avatar/f47cc3c0824e42caed5f04ab77ee71ff?d=identicon&amp;s=40" alt="ujjaini's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>I have been looking for a post of this kind for so long.....
+You have explained very well with minimal code
+Thx a lot !</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c3905" title="Permanent link to this comment.">Posted at 8:53 p.m. on July 19, 2011</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c4302"></a>
+          Gouri
+        </h5>
+        <img src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon&amp;s=40" alt="Gouri's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Static Local Variables thing didn't work for me!</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c4302" title="Permanent link to this comment.">Posted at 12:28 p.m. on August 26, 2011</a></p>
+      </div>
+      
+    
+      
+      <div class="comment ">
+        <h5 class="comment-name">
+          <a name="c4350"></a>
+          very
+        </h5>
+        <img src="http://www.gravatar.com/avatar/e438481ce07931607aca5125c3491f0b?d=identicon&amp;s=40" alt="very's gravatar" class="comment-gravatar" />
+        <div class="comment-body">
+          
+
+  <p>Hey, that's still a very nice article. Except that static local variables part of course. :D Heh! But apparently there are several opinions about that topic.</p>
+<p>What I'd like to ask is about the "wasted space" with deep binary trees. What do you mean with wasted? As far as I know JavaScript arrays usually are sparse arrays. This means that undefined elements do not necessarily consume memory, so the allocated memory is about linearly dependend on the number of defined elements. And even if there is some extra memory allocated for unused elements, I think using an array would probably consume less memory than any other implementation (for example linked objects). Maybe even if the tree degenerates into a linked list. But that's just a guess and it probably depends heavily on the internal implementation of the array.</p>
+<p>Anyhow array indices are currently 32-bit unsigned (will it ever change?) so the maximum depth of the binary tree is 32 (or 31 if you start counting at 0) with the rightmost node being stored at index <code>11111111111111111111111111111110b</code> and maybe an additional leftmost node at depth 33. So it's probably better to use linked objects (or linked arrays) anyway.</p>
+
+
+        </div>
+        <br class="clear" />
+        <p class="comment-date"><a href="/9-javascript-tips-you-may-not-know#c4350" title="Permanent link to this comment.">Posted at 1:41 a.m. on September 1, 2011</a></p>
+      </div>
+      
+    
+  </div>
+  
+
+  <div class="comments-form">
+  
+    <h3>Post a comment</h3>
+    
+<form action="/comments/post/" method="post" class="comments-form">
+  <fieldset>
+    
+    
+      
+        <input type="hidden" name="content_type" value="blog.post" id="id_content_type" />
+      
+    
+      
+        <input type="hidden" name="object_pk" value="10" id="id_object_pk" />
+      
+    
+      
+        <input type="hidden" name="timestamp" value="1314841313" id="id_timestamp" />
+      
+    
+      
+        <input type="hidden" name="security_hash" value="049424183ea34242092eecc8deb41ea06b8b66cf" id="id_security_hash" />
+      
+    
+      
+        
+        <p  >
+          <label for="id_name">Name: * </label>
+          <input id="id_name" type="text" name="name" maxlength="50" />
+        </p>
+      
+    
+      
+        
+        <p  >
+          <label for="id_email">Email address:  <span class="label-help">(will never be published)</span></label>
+          <input type="text" name="email" id="id_email" />
+        </p>
+      
+    
+      
+        
+        <p  >
+          <label for="id_url">URL:  </label>
+          <input type="text" name="url" id="id_url" />
+        </p>
+      
+    
+      
+        
+        <p  >
+          <label for="id_comment">Comment: * </label>
+          <textarea id="id_comment" rows="10" cols="40" name="comment"></textarea>
+        </p>
+      
+    
+      
+        
+        <p   style="display: none;">
+          <label for="id_honeypot">If you enter anything in this field your comment will be treated as spam:  </label>
+          <input type="text" name="honeypot" id="id_honeypot" />
+        </p>
+      
+    
+    <p>
+      <input type="submit" name="post" class="button" value="Post" />
+      <input type="submit" name="preview" class="button" value="Preview" />
+    </p>
+    <p>HTML is not allowed. You can use <a href="http://daringfireball.net/projects/markdown/syntax">markdown syntax</a> to format your comment.</p>
+  </fieldset>
+</form>
+
+  
+  </div>
+
+          </div>
+        
+      </div>
+      
+        
+
+<div id="sidebar">
+
+  <h2>About</h2>
+  <p><img src="/media/img/misc/ayman-hourieh.small.jpg" alt="Ayman Hourieh" id="img-about" /></p>
+  <p><a href="http://en.wikipedia.org/wiki/Computer_science">Computer Science</a> graduate, <a href="http://www.opensource.org/">Open Source</a> enthusiast and Software engineer (<a href="http://en.wikipedia.org/wiki/Reliability_engineering#Software_reliability">Site reliability</a>) at <a href="http://www.google.com/">Google</a>.</p>
+  <p>I'm 27 years old. I live in Dublin, Ireland.</p>
+  <p>This is my personal blog. The views expressed on these pages are mine alone and not those of my employer.</p>
+  <p><a href="/about">More</a></p>
+
+  <h2>Feeds</h2>
+  <p>
+    <a href="/rss.xml"><img src="/media/img/misc/feed.png" alt="RSS Feed" class="img-feed" /></a>
+    <a href="http://twitter.com/aymanh"><img src="/media/img/misc/twitter.png" alt="Follow me on Twitter" class="img-feed" /></a>
+  </p>
+
+  <h2>Books</h2>
+  <p><a href="http://www.amazon.com/Django-Website-Development-Ayman-Hourieh/dp/1847196780/">Django 1.0 Website Development</a></p>
+  <p><a href="http://www.amazon.com/Django-Website-Development-Ayman-Hourieh/dp/1847196780/"><img src="/media/img/misc/django-1.0-website-development.jpg" alt="Django 1.0 Website Development" class="img-book" /></a></p>
+  <p>Build powerful web applications, quickly and cleanly, with the Django application framework.</p>
+  <p>The second edition of my Django book. Published by Packt Publishing in March 2009.</p>
+
+  <h2>Tags</h2>
+  <div id="tag-cloud">
+    <p>
+      
+      
+        <a href="/category/article" class="tag-4">Article</a>
+      
+        <a href="/category/bash" class="tag-1">Bash</a>
+      
+        <a href="/category/book" class="tag-1">Book</a>
+      
+        <a href="/category/coding" class="tag-4">Coding</a>
+      
+        <a href="/category/css" class="tag-1">CSS</a>
+      
+        <a href="/category/debugging" class="tag-2">Debugging</a>
+      
+        <a href="/category/django" class="tag-2">Django</a>
+      
+        <a href="/category/drupal" class="tag-1">Drupal</a>
+      
+        <a href="/category/file" class="tag-1">File</a>
+      
+        <a href="/category/firefox" class="tag-2">Firefox</a>
+      
+        <a href="/category/git" class="tag-1">Git</a>
+      
+        <a href="/category/internet" class="tag-3">Internet</a>
+      
+        <a href="/category/javascript" class="tag-3">JavaScript</a>
+      
+        <a href="/category/linux" class="tag-3">Linux</a>
+      
+        <a href="/category/opensource" class="tag-4">OpenSource</a>
+      
+        <a href="/category/personal" class="tag-1">Personal</a>
+      
+        <a href="/category/php" class="tag-1">PHP</a>
+      
+        <a href="/category/presentation" class="tag-1">Presentation</a>
+      
+        <a href="/category/pycon" class="tag-1">PyCon</a>
+      
+        <a href="/category/python" class="tag-3">Python</a>
+      
+        <a href="/category/security" class="tag-1">Security</a>
+      
+        <a href="/category/testing" class="tag-1">Testing</a>
+      
+        <a href="/category/tips" class="tag-1">Tips</a>
+      
+        <a href="/category/turbogears" class="tag-1">TurboGears</a>
+      
+        <a href="/category/tutorial" class="tag-1">Tutorial</a>
+      
+        <a href="/category/vim" class="tag-1">Vim</a>
+      
+        <a href="/category/webdev" class="tag-3">WebDev</a>
+      
+        <a href="/category/xhtml" class="tag-1">XHTML</a>
+      
+    </p>
+  </div>
+
+</div>
+
+      
+      <div id="footer">
+        <p>Copyright &copy; 2004, 2011 Ayman Hourieh.</p>
+        <p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License</a>.</p>
+        <p>This is my personal blog. The views expressed on these pages are mine alone and not those of my employer.</p>
+        <p>Powered By <a href="http://djangoproject.org/">Django</a>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>
